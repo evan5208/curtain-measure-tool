@@ -1,43 +1,47 @@
 # Curtain Measurement Tool — by LuxDrape
 
 **Live Demo:** https://evan5208.github.io/curtain-measure-tool/  
-**Order Custom Drapes:** [LuxDrape](https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=github_readme)
+**Order Custom Drapes:** [LuxDrape](https://luxdrape.com/)
 
-A free, browser-based calculator to size **custom curtains** accurately:
+A free, browser-based calculator to size **custom curtains** accurately.  
+Quickly estimate rod span, panel count, per-panel width, and finished length before placing an order.
 
-- Calculate rod span (finished width coverage)  
-- Panel count and per-panel finished width  
-- Finished drop/length with hover • kiss • break • puddle styles  
-- Inside/Outside mount, side extensions, center overlap  
-- Units: inches / centimeters; adjustable fullness (1.8×–2.5×)
+---
+
+## Features
+- Calculate finished rod span (coverage width)  
+- Estimate required number of panels and per-panel width  
+- Adjustable fullness factor (1.8× to 2.5×)  
+- Inside or outside mount with optional side extensions and overlaps  
+- Supports both inches and centimeters  
+
+👉 Explore fabrics and place your custom order at:  
+[https://luxdrape.com/](https://luxdrape.com/)
 
 ---
 
 ## How to Use
-1. Enter opening width/height and select mount type.  
-2. Pick fullness, panel usable width, and drop style.  
-3. Click **Calculate** → See rod span, panel count, and finished drop.  
-4. Use **Order at LuxDrape** to go to our store with your sizing parameters.  
-
-Try it live here:  
-➡️ https://evan5208.github.io/curtain-measure-tool/
+1. Enter window width/height and select mount type.  
+2. Choose fullness, panel usable width, and drop style.  
+3. Click **Calculate** to see rod span, panel count, and finished drop.  
+4. Press **Order at LuxDrape** to visit the store with your sizing in mind.  
 
 ---
 
 ## Why LuxDrape
-- Real-world tested sizing logic for accurate installs  
+- Real-world tested sizing logic for accurate installations  
 - Balanced fullness presets and drop deductions for rings/hooks  
-- Clean, fast, no cookies, works offline once loaded  
+- Fast, lightweight, no cookies, works offline once loaded  
 
-👉 More fabric options & custom orders:  
-https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=github_readme
+More fabric options and custom drapery services:  
+[https://luxdrape.com/](https://luxdrape.com/)
 
 ---
 
 ## Deploy Your Own (GitHub Pages)
-1. Fork or download this repo, keep `index.html` in repo root.  
-2. Go to **Settings → Pages → Deploy from a branch → main / root**.  
-3. Your site goes live at `https://<username>.github.io/curtain-measure-tool/`.
+1. Fork or download this repository, keeping `index.html` in the root.  
+2. Go to **Settings → Pages** and select **main / root** as the source.  
+3. Your site will be live at `https://<username>.github.io/curtain-measure-tool/`.
 
 ---
 
