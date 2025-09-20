@@ -6,387 +6,107 @@
   <title>Curtain Measurement Tool | LuxDrape</title>
   <meta name="description" content="Free, fast calculator to size custom curtains: width, panels, and finished length. Publishable on GitHub Pages with backlinks to LuxDrape." />
   <meta name="robots" content="index,follow" />
-  <!-- Optional: replace with your final GitHub Pages URL -->
-  <!-- <link rel="canonical" href="https://YOUR-USERNAME.github.io/curtain-measure-tool/" /> -->
   <meta property="og:title" content="Curtain Measurement Tool | LuxDrape" />
   <meta property="og:description" content="Size custom curtains accurately: outside/inside mount, fullness, panels, finished length. One-page app you can host on GitHub Pages." />
   <meta property="og:type" content="website" />
   <style>
-    :root {
-      --bg: #0b0c0f;
-      --card: #11131a;
-      --ink: #e8ecf1;
-      --muted: #a4aab5;
-      --brand: #63b3ed;
-      --accent: #78d3a9;
-      --border: #1d2230;
-      --warn: #f6bd60;
-      --error: #ef6b6b;
-    }
-    @media (prefers-color-scheme: light) {
-      :root { --bg:#f6f8fb; --card:#ffffff; --ink:#0b0c0f; --muted:#535b66; --border:#e6eaf0; }
-    }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background:var(--bg); color:var(--ink); }
-    header { position:sticky; top:0; backdrop-filter:saturate(1.1) blur(6px); background:color-mix(in oklab, var(--bg) 80%, transparent); border-bottom:1px solid var(--border); }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 24px; }
-    .flex { display:flex; gap:24px; flex-wrap:wrap; }
-    h1 { font-size: clamp(22px, 2.4vw, 34px); margin: 10px 0; letter-spacing: .2px; }
-    h2 { font-size: 18px; margin: 0 0 10px; color: var(--ink); }
-    p { color: var(--muted); line-height: 1.6; }
-    a { color: var(--brand); text-decoration: none; }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f6f8fb; color: #222; }
+    header { background: #fff; border-bottom: 1px solid #ddd; padding: 20px; }
+    header h1 { margin: 0; font-size: 24px; }
+    header p { margin: 5px 0 0; font-size: 14px; color: #555; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    label { display: block; margin-top: 12px; font-size: 14px; color: #333; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; margin-top: 12px; }
+    .btn-primary { background: #007bff; color: #fff; }
+    .btn-secondary { background: #f0f0f0; color: #222; }
+    .results { margin-top: 20px; }
+    .footer { text-align: center; font-size: 13px; color: #777; margin-top: 40px; }
+    a { color: #007bff; text-decoration: none; }
     a:hover { text-decoration: underline; }
-
-    .card { background: var(--card); border:1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 6px 24px rgba(0,0,0,.18); flex:1 1 360px; }
-    .card.tight { padding: 12px 16px; }
-
-    .grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
-    .col-6 { grid-column: span 6; }
-    .col-4 { grid-column: span 4; }
-    .col-3 { grid-column: span 3; }
-    .col-12 { grid-column: span 12; }
-
-    label { font-size: 13px; color: var(--muted); display:block; margin: 8px 0 6px; }
-    input, select { width: 100%; padding: 10px 12px; border-radius: 10px; border:1px solid var(--border); background: transparent; color: var(--ink); outline:none; }
-    input:focus, select:focus { border-color: color-mix(in oklab, var(--brand) 60%, var(--border)); box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 22%, transparent); }
-    small { color: var(--muted); }
-
-    .btn { display:inline-flex; align-items:center; gap:8px; padding: 10px 14px; border-radius: 12px; border:1px solid var(--border); background: linear-gradient(180deg, color-mix(in oklab, var(--brand) 20%, transparent), transparent); color: var(--ink); cursor:pointer; }
-    .btn.primary { background: linear-gradient(180deg, color-mix(in oklab, var(--brand) 55%, transparent), transparent); border-color: color-mix(in oklab, var(--brand) 60%, var(--border)); }
-    .btn:hover { filter: brightness(1.08); }
-
-    .pill { display:inline-block; background: color-mix(in oklab, var(--accent) 18%, transparent); border:1px solid color-mix(in oklab, var(--accent) 45%, var(--border)); color: var(--ink); padding: 2px 10px; border-radius: 999px; font-size: 12px; }
-    .muted { color: var(--muted); }
-    .hr { height:1px; background: var(--border); margin: 14px 0; }
-
-    .footer { margin-top: 18px; display:flex; align-items:center; justify-content: space-between; flex-wrap:wrap; gap:10px; }
-
-    .luxbar { position: fixed; right: 18px; bottom: 18px; z-index: 10; }
-
-    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: color-mix(in oklab, var(--brand) 10%, transparent); border:1px solid var(--border); border-bottom-width: 2px; padding: 2px 6px; border-radius: 6px; }
-    .warning { color: var(--warn); }
-    .error { color: var(--error); }
-    .ok { color: var(--accent); }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <div class="flex" style="align-items:center; justify-content:space-between">
-        <div>
-          <h1>Curtain Measurement Tool</h1>
-          <p class="muted">Accurate sizes for custom drapery — then jump to <a href="https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_header" target="_blank" rel="noopener">LuxDrape</a> to order.</p>
-        </div>
-        <div><span class="pill">Free • No login • GitHub Pages ready</span></div>
-      </div>
+      <h1>Curtain Measurement Tool</h1>
+      <p>Accurate sizes for custom drapery — then visit <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a> to order.</p>
     </div>
   </header>
 
   <main class="wrap">
-    <div class="flex">
-      <!-- INPUTS -->
-      <section class="card" style="flex: 1 1 520px;">
-        <h2>1) Enter your measurements</h2>
-        <p class="muted">Work in inches or centimeters. For outside mount, add side extensions to cover trim and reduce light gaps.</p>
-        <form id="form" class="grid" autocomplete="off">
-          <div class="col-4">
-            <label for="unit">Units</label>
-            <select id="unit">
-              <option value="in">inches (in)</option>
-              <option value="cm">centimeters (cm)</option>
-            </select>
-          </div>
-          <div class="col-4">
-            <label for="mount">Mount type</label>
-            <select id="mount">
-              <option value="outside">Outside mount</option>
-              <option value="inside">Inside mount</option>
-            </select>
-          </div>
-          <div class="col-4">
-            <label for="fullness">Fullness ×</label>
-            <select id="fullness">
-              <option value="1.8">1.8× (sleek)</option>
-              <option value="2.0">2.0×</option>
-              <option value="2.2" selected>2.2× (balanced)</option>
-              <option value="2.5">2.5× (lush)</option>
-            </select>
-          </div>
+    <div class="card">
+      <h2>1) Enter your measurements</h2>
+      <form id="form">
+        <label for="width">Window width</label>
+        <input id="width" type="number" placeholder="e.g. 72" required />
 
-          <div class="col-6">
-            <label for="openingWidth">Opening width</label>
-            <input id="openingWidth" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 72" required />
-            <small class="muted">Measure the visible window or the span you want to cover.</small>
-          </div>
-          <div class="col-6">
-            <label for="openingHeight">Opening height</label>
-            <input id="openingHeight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 48" />
-            <small class="muted">Used for inside-mount sill/apron options.</small>
-          </div>
+        <label for="height">Window height</label>
+        <input id="height" type="number" placeholder="e.g. 48" />
 
-          <div class="col-6 only-outside">
-            <label for="sideExtension">Side extension (each side)</label>
-            <input id="sideExtension" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 4" />
-            <small class="muted">Add coverage beyond the opening; default ~4 in / 10 cm.</small>
-          </div>
-          <div class="col-6 only-outside">
-            <label for="centerOverlap">Center overlap (optional)</label>
-            <input id="centerOverlap" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 2" />
-            <small class="muted">Extra width to ensure panels meet in the middle; default ~2 in / 5 cm.</small>
-          </div>
+        <label for="fullness">Fullness ×</label>
+        <select id="fullness">
+          <option value="1.8">1.8× (sleek)</option>
+          <option value="2.0">2.0×</option>
+          <option value="2.2" selected>2.2× (balanced)</option>
+          <option value="2.5">2.5× (lush)</option>
+        </select>
 
-          <div class="col-6">
-            <label for="panelWidth">Usable width per panel</label>
-            <input id="panelWidth" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 50" />
-            <small class="muted">Typical ready-made panel ~50 in / 127 cm usable width.</small>
-          </div>
-          <div class="col-6">
-            <label for="header">Header / Hanging style</label>
-            <select id="header">
-              <option value="rod-pocket">Rod pocket</option>
-              <option value="grommet">Grommet</option>
-              <option value="rings">Rings / hooks</option>
-              <option value="pinch-pleat">Pinch pleat</option>
-            </select>
-            <small class="muted">Rings/hooks slightly reduce finished drop (we account for it).</small>
-          </div>
+        <label for="panelWidth">Usable width per panel</label>
+        <input id="panelWidth" type="number" placeholder="e.g. 50" />
 
-          <div class="col-6">
-            <label for="lengthTarget">Length target</label>
-            <select id="lengthTarget">
-              <option value="floor">To floor (rod-to-floor)</option>
-              <option value="sill">To sill (opening height)</option>
-              <option value="apron">To apron (opening height + 6 in / 15 cm)</option>
-            </select>
-          </div>
-          <div class="col-6 only-floor">
-            <label for="rodToFloor">Rod to floor</label>
-            <input id="rodToFloor" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 96" />
-            <small class="muted">Measure from bottom of rod/rings to the floor.</small>
-          </div>
-
-          <div class="col-6">
-            <label for="dropStyle">Drop style</label>
-            <select id="dropStyle">
-              <option value="hover">Hover (float slightly)</option>
-              <option value="kiss" selected>Kiss (just touch)</option>
-              <option value="break">Slight break</option>
-              <option value="puddle">Puddle</option>
-            </select>
-          </div>
-
-          <div class="col-12">
-            <div class="hr"></div>
-            <button type="button" class="btn primary" id="calcBtn">Calculate</button>
-            <button type="reset" class="btn" id="resetBtn">Reset</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- RESULTS -->
-      <aside class="card" style="flex: 1 1 380px;">
-        <h2>2) Results</h2>
-        <p class="muted">These are professional-grade estimates. Always measure twice before ordering.</p>
-        <div id="results" class="tight">
-          <p class="muted">Fill the form and press <span class="kbd">Calculate</span>.</p>
-        </div>
-        <div class="hr"></div>
-        <div class="footer">
-          <a id="luxBtn" class="btn primary" href="https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_button" target="_blank" rel="noopener">Order at LuxDrape ↗</a>
-          <button id="copyBtn" class="btn" type="button">Copy referral link</button>
-        </div>
-      </aside>
+        <button type="button" class="btn-primary" onclick="calculate()">Calculate</button>
+        <button type="reset" class="btn-secondary">Reset</button>
+      </form>
     </div>
 
-    <!-- BACKLINKS / SEO -->
-    <section class="card">
+    <div class="card">
+      <h2>2) Results</h2>
+      <div id="results" class="results">
+        <p>Fill the form and press <strong>Calculate</strong>.</p>
+      </div>
+      <p><a href="https://luxdrape.com/" target="_blank" rel="noopener" class="btn-primary">Order at LuxDrape ↗</a></p>
+    </div>
+
+    <div class="card">
       <h2>3) Helpful links</h2>
-      <p class="muted">Learn more about custom drapery and materials on LuxDrape:</p>
       <ul>
-        <li><a href="https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_links" target="_blank" rel="noopener">Custom Curtains — LuxDrape</a></li>
-        <li><a href="https://luxdrape.com/collections/linen?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_links" target="_blank" rel="noopener">Linen Drapes Collection</a></li>
-        <li><a href="https://luxdrape.com/collections/velvet?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_links" target="_blank" rel="noopener">Velvet Drapes Collection</a></li>
+        <li><a href="https://luxdrape.com/" target="_blank" rel="noopener">Custom Curtains — LuxDrape</a></li>
+        <li><a href="https://luxdrape.com/collections/linen" target="_blank" rel="noopener">Linen Drapes Collection</a></li>
+        <li><a href="https://luxdrape.com/collections/velvet" target="_blank" rel="noopener">Velvet Drapes Collection</a></li>
       </ul>
-      <p class="muted">This page is hosted on GitHub Pages and includes natural do‑follow links to LuxDrape.</p>
-    </section>
+    </div>
   </main>
 
-  <!-- Floating CTA -->
-  <div class="luxbar">
-    <a class="btn primary" href="https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_float" target="_blank" rel="noopener">LuxDrape ↗</a>
-  </div>
+  <footer class="footer">
+    © <span id="year"></span> LuxDrape. Natural backlinks to <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a>.
+  </footer>
 
   <script>
-    (function(){
-      const $ = (s)=>document.querySelector(s);
-      const results = $('#results');
-      const unitEl = $('#unit');
-      const mountEl = $('#mount');
-      const fullnessEl = $('#fullness');
-      const openingWidthEl = $('#openingWidth');
-      const openingHeightEl = $('#openingHeight');
-      const sideExtensionEl = $('#sideExtension');
-      const centerOverlapEl = $('#centerOverlap');
-      const panelWidthEl = $('#panelWidth');
-      const headerEl = $('#header');
-      const lengthTargetEl = $('#lengthTarget');
-      const rodToFloorEl = $('#rodToFloor');
-      const dropStyleEl = $('#dropStyle');
-      const calcBtn = $('#calcBtn');
-      const resetBtn = $('#resetBtn');
-      const copyBtn = $('#copyBtn');
-      const luxBtn = $('#luxBtn');
+    function calculate() {
+      const width = parseFloat(document.getElementById('width').value);
+      const fullness = parseFloat(document.getElementById('fullness').value);
+      const panelWidth = parseFloat(document.getElementById('panelWidth').value);
 
-      function isInches(){ return unitEl.value === 'in'; }
-      function toCm(v){ return isFinite(v) ? (isInches()? v*2.54 : v) : 0; }
-      function fromCm(v){ return isInches()? v/2.54 : v; }
-      function fmt(v){ return isInches()? `${round(v,2)} in` : `${round(v,1)} cm`; }
-      function round(n, d){ const p = Math.pow(10,d); return Math.round((n + Number.EPSILON)*p)/p; }
-
-      function toggleFields(){
-        document.querySelectorAll('.only-outside').forEach(el=>{
-          el.style.display = (mountEl.value==='outside') ? 'block' : 'none';
-        });
-        document.querySelectorAll('.only-floor').forEach(el=>{
-          el.style.display = (lengthTargetEl.value==='floor') ? 'block' : 'none';
-        });
+      if (!width || !fullness || !panelWidth) {
+        document.getElementById('results').innerHTML = "<p>Please enter all values.</p>";
+        return;
       }
 
-      function defaults(){
-        // sensible defaults when empty
-        if(!openingWidthEl.value) openingWidthEl.value = isInches()? 72 : 180;
-        if(!openingHeightEl.value) openingHeightEl.value = isInches()? 48 : 120;
-        if(!sideExtensionEl.value) sideExtensionEl.value = isInches()? 4 : 10;
-        if(!centerOverlapEl.value) centerOverlapEl.value = isInches()? 2 : 5;
-        if(!panelWidthEl.value) panelWidthEl.value = isInches()? 50 : 127;
-        if(!rodToFloorEl.value && lengthTargetEl.value==='floor') rodToFloorEl.value = isInches()? 96 : 244;
-      }
+      const fabricNeeded = width * fullness;
+      const panels = Math.max(1, Math.ceil(fabricNeeded / panelWidth));
+      const perPanel = (fabricNeeded / panels).toFixed(1);
 
-      function dropOffsetCm(){
-        switch(dropStyleEl.value){
-          case 'hover': return isInches()? -0.5*2.54 : -1; // hover slightly above
-          case 'kiss': return 0;
-          case 'break': return isInches()? 1*2.54 : 2;     // small break
-          case 'puddle': return isInches()? 4*2.54 : 10;   // romantic puddle
-        }
-        return 0;
-      }
-
-      function headerDeductionCm(){
-        // rings/hooks typically drop panel below rod slightly
-        return (headerEl.value === 'rings' || headerEl.value === 'pinch-pleat') ? (isInches()? 0.75*2.54 : 2) : 0;
-      }
-
-      function calc(e){
-        e && e.preventDefault();
-        defaults();
-        const mount = mountEl.value; // outside | inside
-        const fullness = parseFloat(fullnessEl.value);
-        const W_open_cm = toCm(parseFloat(openingWidthEl.value));
-        const H_open_cm = toCm(parseFloat(openingHeightEl.value));
-        const sideExt_cm = toCm(parseFloat(sideExtensionEl.value || 0));
-        const centerOverlap_cm = toCm(parseFloat(centerOverlapEl.value || 0));
-        const panelUsable_cm = toCm(parseFloat(panelWidthEl.value));
-        const lt = lengthTargetEl.value; // floor | sill | apron
-        const rodToFloor_cm = toCm(parseFloat(rodToFloorEl.value || 0));
-        const drop_cm = dropOffsetCm();
-        const headerDed_cm = headerDeductionCm();
-
-        if(!isFinite(W_open_cm) || W_open_cm<=0){
-          results.innerHTML = `<p class="error">Enter a valid opening width.</p>`; return;
-        }
-        if(lt==='floor' && (!isFinite(rodToFloor_cm) || rodToFloor_cm<=0)){
-          results.innerHTML = `<p class="error">For floor length, enter a valid <em>rod to floor</em> distance.</p>`; return;
-        }
-
-        // WIDTH / PANELS
-        let rodWidth_cm = (mount==='outside') ? (W_open_cm + sideExt_cm*2 + centerOverlap_cm) : (W_open_cm - (isInches()? 0.25*2.54 : 0.5));
-        if(rodWidth_cm < 1) rodWidth_cm = W_open_cm; // safety
-        const fabricNeeded_cm = rodWidth_cm * fullness;
-        const panels = Math.max(1, Math.ceil(fabricNeeded_cm / panelUsable_cm));
-        const finishedPerPanel_cm = fabricNeeded_cm / panels;
-
-        // LENGTH
-        let finishedDrop_cm = 0;
-        if(lt==='floor') {
-          finishedDrop_cm = Math.max(1, rodToFloor_cm + drop_cm - headerDed_cm);
-        } else if(lt==='sill') {
-          finishedDrop_cm = Math.max(1, H_open_cm - (isInches()? 0.5*2.54 : 1)); // leave a tiny clearance at sill
-        } else if(lt==='apron') {
-          finishedDrop_cm = Math.max(1, H_open_cm + (isInches()? 6*2.54 : 15));
-        }
-
-        // BUILD REFERRAL LINK
-        const url = new URL('https://luxdrape.com/');
-        url.searchParams.set('utm_source','github');
-        url.searchParams.set('utm_medium','referral');
-        url.searchParams.set('utm_campaign','measure_tool');
-        url.searchParams.set('width_cm', String(round(rodWidth_cm,1)) );
-        url.searchParams.set('panels', String(panels));
-        url.searchParams.set('fullness', String(fullness));
-        url.searchParams.set('drop_cm', String(Math.round(finishedDrop_cm)) );
-        url.searchParams.set('mount', mount);
-        luxBtn.href = url.toString();
-
-        results.innerHTML = `
-          <div class="grid">
-            <div class="col-12">
-              <div class="pill">Summary</div>
-              <p class="muted" style="margin-top:8px">Based on <span class="kbd">${mount}</span> mount, <span class="kbd">${fullness}×</span> fullness, <span class="kbd">${panelUsable_cm ? fmt(fromCm(panelUsable_cm)) : '–'}</span> panel width.</p>
-            </div>
-            <div class="col-6">
-              <label>Rod width (finished span)</label>
-              <div><strong>${fmt(fromCm(rodWidth_cm))}</strong></div>
-              <small class="muted">Add finials separately if needed.</small>
-            </div>
-            <div class="col-6">
-              <label>Number of panels</label>
-              <div><strong>${panels}</strong></div>
-              <small class="muted">We distribute width evenly across panels.</small>
-            </div>
-            <div class="col-6">
-              <label>Per‑panel finished width</label>
-              <div><strong>${fmt(fromCm(finishedPerPanel_cm))}</strong></div>
-              <small class="muted">Sum of panels ≈ ${fmt(fromCm(rodWidth_cm))} × ${fullness} fullness.</small>
-            </div>
-            <div class="col-6">
-              <label>Finished drop / length</label>
-              <div><strong>${fmt(fromCm(finishedDrop_cm))}</strong></div>
-              <small class="muted">Drop style: <span class="kbd">${dropStyleEl.value}</span>${ headerDed_cm? ', header deduction applied for rings/hooks' : ''}.</small>
-            </div>
-            <div class="col-12">
-              <div class="hr"></div>
-              <small class="warning">Tip — Measure twice. For outside mount blackout, consider larger side extensions to reduce light gaps.</small>
-            </div>
-          </div>
-        `;
-      }
-
-      function copyLink(){
-        const href = luxBtn.href;
-        navigator.clipboard?.writeText(href).then(()=>{
-          copyBtn.textContent = 'Copied!';
-          setTimeout(()=>copyBtn.textContent = 'Copy referral link', 1500);
-        }).catch(()=>{
-          alert('Copy failed. Long-press or right‑click the button and copy the link.');
-        });
-      }
-
-      unitEl.addEventListener('change', toggleFields);
-      mountEl.addEventListener('change', toggleFields);
-      lengthTargetEl.addEventListener('change', toggleFields);
-      calcBtn.addEventListener('click', calc);
-      copyBtn.addEventListener('click', copyLink);
-      resetBtn.addEventListener('click', ()=>{ results.innerHTML = '<p class="muted">Fill the form and press <span class="kbd">Calculate</span>.</p>'; });
-
-      toggleFields();
-    })();
+      document.getElementById('results').innerHTML = `
+        <p><strong>Rod width:</strong> ${width} in</p>
+        <p><strong>Fullness:</strong> ${fullness}×</p>
+        <p><strong>Total fabric needed:</strong> ${fabricNeeded.toFixed(1)} in</p>
+        <p><strong>Panels required:</strong> ${panels}</p>
+        <p><strong>Per panel finished width:</strong> ${perPanel} in</p>
+      `;
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
-  <footer class="wrap" style="opacity:.9;">
-    <div class="hr"></div>
-    <p class="muted">© <span id="y"></span> • Built for GitHub Pages. Natural backlinks to <a href="https://luxdrape.com/?utm_source=github&utm_medium=referral&utm_campaign=measure_tool_footer" target="_blank" rel="noopener">LuxDrape</a>. No cookies.</p>
-  </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
