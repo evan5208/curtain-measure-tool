@@ -3,110 +3,162 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Curtain Measurement Tool | LuxDrape</title>
-  <meta name="description" content="Free, fast calculator to size custom curtains: width, panels, and finished length. Publishable on GitHub Pages with backlinks to LuxDrape." />
+  <title>Custom Curtain Measurement Tool | LuxDrape</title>
+  <meta name="description" content="Free custom curtain measurement tool: quickly calculate rod span, panel count, and finished size to order perfect custom curtains." />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="Curtain Measurement Tool | LuxDrape" />
-  <meta property="og:description" content="Size custom curtains accurately: outside/inside mount, fullness, panels, finished length. One-page app you can host on GitHub Pages." />
+  <meta property="og:title" content="Custom Curtain Measurement Tool | LuxDrape" />
+  <meta property="og:description" content="Use this custom curtain measurement tool to size custom curtains accurately before ordering." />
   <meta property="og:type" content="website" />
+  <!-- Optional: set your live URL after GitHub Pages is active -->
+  <!-- <link rel="canonical" href="https://<username>.github.io/curtain-measure-tool/"> -->
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f6f8fb; color: #222; }
-    header { background: #fff; border-bottom: 1px solid #ddd; padding: 20px; }
-    header h1 { margin: 0; font-size: 24px; }
-    header p { margin: 5px 0 0; font-size: 14px; color: #555; }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
-    .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
-    label { display: block; margin-top: 12px; font-size: 14px; color: #333; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
-    button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; margin-top: 12px; }
-    .btn-primary { background: #007bff; color: #fff; }
-    .btn-secondary { background: #f0f0f0; color: #222; }
-    .results { margin-top: 20px; }
-    .footer { text-align: center; font-size: 13px; color: #777; margin-top: 40px; }
-    a { color: #007bff; text-decoration: none; }
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --ink: #222;
+      --muted: #555;
+      --line: #e5e7eb;
+      --brand: #0b73f5;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; margin:0; background: var(--bg); color: var(--ink); }
+    header { background: var(--card); border-bottom: 1px solid var(--line); padding: 20px 0; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    h1 { margin: 0; font-size: 24px; }
+    h2 { margin: 0 0 12px; font-size: 18px; }
+    p  { color: var(--muted); line-height: 1.6; margin: 8px 0 0; }
+    a  { color: var(--brand); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px; margin: 20px 0; }
+    label { display:block; margin-top: 12px; font-size: 14px; color: #333; }
+    input, select { width: 100%; padding: 8px 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 6px; }
+    input:focus, select:focus { outline: none; border-color: #b4c8ff; box-shadow: 0 0 0 3px rgba(11,115,245,0.18); }
+    .controls { display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+
+    button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; }
+    .btn-primary { background: var(--brand); color:#fff; }
+    .btn-secondary { background: #f0f0f0; color:#222; }
+
+    /* Make anchor links look like buttons when needed */
+    .as-button { display:inline-block; padding: 10px 16px; border-radius: 6px; text-decoration: none; }
+    .as-button.primary { background: var(--brand); color:#fff; }
+    .as-button.secondary { background: #f0f0f0; color:#222; }
+
+    .results { margin-top: 12px; }
+    .footer { text-align:center; font-size: 13px; color:#777; padding: 24px 0 50px; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <h1>Curtain Measurement Tool</h1>
-      <p>Accurate sizes for custom drapery — then visit <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a> to order.</p>
+      <h1>Custom Curtain Measurement Tool</h1>
+      <p>
+        Use this <strong>custom curtain measurement tool</strong> to quickly calculate the right sizes before ordering.
+        Enter your dimensions and fullness to get accurate results, then visit
+        <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a> to choose your
+        <strong>custom curtains</strong>.
+      </p>
     </div>
   </header>
 
   <main class="wrap">
-    <div class="card">
-      <h2>1) Enter your measurements</h2>
-      <form id="form">
-        <label for="width">Window width</label>
-        <input id="width" type="number" placeholder="e.g. 72" required />
-
-        <label for="height">Window height</label>
-        <input id="height" type="number" placeholder="e.g. 48" />
+    <!-- Inputs -->
+    <section class="card" aria-labelledby="inputsHeading">
+      <h2 id="inputsHeading">1) Enter your measurements</h2>
+      <form id="form" novalidate>
+        <label for="width">Opening width (inches)</label>
+        <input id="width" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 72" required aria-required="true" />
 
         <label for="fullness">Fullness ×</label>
-        <select id="fullness">
+        <select id="fullness" aria-label="Fullness multiplier">
           <option value="1.8">1.8× (sleek)</option>
           <option value="2.0">2.0×</option>
           <option value="2.2" selected>2.2× (balanced)</option>
           <option value="2.5">2.5× (lush)</option>
         </select>
 
-        <label for="panelWidth">Usable width per panel</label>
-        <input id="panelWidth" type="number" placeholder="e.g. 50" />
+        <label for="panelWidth">Usable width per panel (inches)</label>
+        <input id="panelWidth" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 50" required aria-required="true" />
 
-        <button type="button" class="btn-primary" onclick="calculate()">Calculate</button>
-        <button type="reset" class="btn-secondary">Reset</button>
+        <div class="controls">
+          <button type="button" class="btn-primary" id="calcBtn" aria-label="Calculate">Calculate</button>
+          <button type="reset"  class="btn-secondary" aria-label="Reset form">Reset</button>
+        </div>
       </form>
-    </div>
+    </section>
 
-    <div class="card">
-      <h2>2) Results</h2>
+    <!-- Results -->
+    <section class="card" aria-labelledby="resultsHeading">
+      <h2 id="resultsHeading">2) Results</h2>
       <div id="results" class="results">
         <p>Fill the form and press <strong>Calculate</strong>.</p>
       </div>
-      <p><a href="https://luxdrape.com/" target="_blank" rel="noopener" class="btn-primary">Order at LuxDrape ↗</a></p>
-    </div>
+      <div class="controls">
+        <a href="https://luxdrape.com/" target="_blank" rel="noopener" role="button" aria-label="Order at LuxDrape" class="as-button primary">Order at LuxDrape ↗</a>
+      </div>
+    </section>
 
-    <div class="card">
-      <h2>3) Helpful links</h2>
+    <!-- Helpful Links -->
+    <section class="card" aria-labelledby="linksHeading">
+      <h2 id="linksHeading">3) Helpful links</h2>
       <ul>
         <li><a href="https://luxdrape.com/" target="_blank" rel="noopener">Custom Curtains — LuxDrape</a></li>
-        <li><a href="https://luxdrape.com/collections/linen" target="_blank" rel="noopener">Linen Drapes Collection</a></li>
-        <li><a href="https://luxdrape.com/collections/velvet" target="_blank" rel="noopener">Velvet Drapes Collection</a></li>
+        <li><a href="https://luxdrape.com/collections/linen"  target="_blank" rel="noopener">Linen Custom Curtains</a></li>
+        <li><a href="https://luxdrape.com/collections/velvet" target="_blank" rel="noopener">Velvet Custom Curtains</a></li>
       </ul>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    © <span id="year"></span> LuxDrape. Natural backlinks to <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a>.
+    © <span id="year"></span> LuxDrape • Natural backlinks to
+    <a href="https://luxdrape.com/" target="_blank" rel="noopener">LuxDrape</a>.
   </footer>
 
   <script>
-    function calculate() {
-      const width = parseFloat(document.getElementById('width').value);
-      const fullness = parseFloat(document.getElementById('fullness').value);
-      const panelWidth = parseFloat(document.getElementById('panelWidth').value);
+    function round(n, d) {
+      const p = Math.pow(10, d);
+      return Math.round((n + Number.EPSILON) * p) / p;
+    }
 
-      if (!width || !fullness || !panelWidth) {
-        document.getElementById('results').innerHTML = "<p>Please enter all values.</p>";
+    function calculate() {
+      const widthEl = document.getElementById('width');
+      const fullnessEl = document.getElementById('fullness');
+      const panelWidthEl = document.getElementById('panelWidth');
+
+      const width = parseFloat(widthEl.value);
+      const fullness = parseFloat(fullnessEl.value);
+      const panelWidth = parseFloat(panelWidthEl.value);
+
+      const valid =
+        Number.isFinite(width) && width > 0 &&
+        Number.isFinite(fullness) && fullness > 0 &&
+        Number.isFinite(panelWidth) && panelWidth > 0;
+
+      if (!valid) {
+        document.getElementById('results').innerHTML =
+          "<p>Please enter valid numbers greater than 0 for width, fullness, and per-panel width.</p>";
         return;
       }
 
+      // Basic pro-style logic:
+      // total finished width needed = opening width × fullness
       const fabricNeeded = width * fullness;
       const panels = Math.max(1, Math.ceil(fabricNeeded / panelWidth));
-      const perPanel = (fabricNeeded / panels).toFixed(1);
+      const perPanel = fabricNeeded / panels;
 
       document.getElementById('results').innerHTML = `
-        <p><strong>Rod width:</strong> ${width} in</p>
-        <p><strong>Fullness:</strong> ${fullness}×</p>
-        <p><strong>Total fabric needed:</strong> ${fabricNeeded.toFixed(1)} in</p>
+        <p><strong>Opening width (rod span target):</strong> ${round(width, 1)} in</p>
+        <p><strong>Fullness:</strong> ${round(fullness, 2)}×</p>
+        <p><strong>Total finished width needed:</strong> ${round(fabricNeeded, 1)} in</p>
         <p><strong>Panels required:</strong> ${panels}</p>
-        <p><strong>Per panel finished width:</strong> ${perPanel} in</p>
+        <p><strong>Per-panel finished width:</strong> ${round(perPanel, 1)} in</p>
       `;
     }
+
     document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('calcBtn').addEventListener('click', calculate);
   </script>
 </body>
 </html>
