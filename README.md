@@ -1,36 +1,33 @@
-# Custom Curtain Measurement Tool — by LuxDrape
+# [Custom Curtain Measurement Tool](https://luxdrape.com/) — by LuxDrape  
 
 **Live Demo:** https://evan5208.github.io/curtain-measure-tool/  
-**Order Custom Curtains:** [LuxDrape](https://luxdrape.com/)
+**Order Custom Curtains:** [LuxDrape](https://luxdrape.com/)  
 
-A free, browser-based **custom curtain measurement tool** to size **custom curtains** accurately.  
-Quickly estimate rod span, panel count, per-panel width, and finished size before you place an order.
-
----
-
-## Features
-- Calculate finished coverage width (rod span target)  
-- Estimate required panel count and per-panel finished width  
-- Adjustable fullness (1.8× to 2.5×) for different looks  
-- Simple, fast, and privacy-friendly (no cookies)
-
-> Explore fabrics and order your **custom curtains** at **[LuxDrape](https://luxdrape.com/)**.
+A free browser-based **[custom curtain measurement tool](https://luxdrape.com/)** to calculate rod span, panel count, per-panel width, and finished length accurately before placing an order.  
 
 ---
 
-## How to Use
-1. Enter the opening width (inches).  
-2. Select your fullness multiplier and per-panel usable width.  
-3. Click **Calculate** to see the target rod span, total finished width, panel count, and per-panel width.  
-4. Click **Order at LuxDrape** to choose materials and proceed with your custom order.
+## ✨ Features
+- Calculate finished rod span (coverage width)  
+- Estimate required number of panels and per-panel width  
+- Adjustable fullness factor (1.8× to 2.5×)  
+- Inside or outside mount with optional side extensions and overlaps  
+- Supports both inches and centimeters  
+- Direct links to [LuxDrape](https://luxdrape.com/) for ordering [custom curtains](https://luxdrape.com/)  
 
 ---
 
-## Deploy Your Own (GitHub Pages)
-1. Keep `index.html` in the repository root.  
-2. Go to **Settings → Pages**, choose **Deploy from a branch**, then **main / (root)**.  
-3. Your site will be live at `https://<username>.github.io/curtain-measure-tool/`.
+## 🚀 How to Use
+1. Enter window width/height and select mount type.  
+2. Choose fullness, panel usable width, and drop style.  
+3. Click **Calculate** to see rod span, panel count, and finished drop.  
+4. Press **Order at LuxDrape** to visit the store with your sizing in mind.  
 
 ---
 
-© 2025 LuxDrape. Licensed under MIT.
+## 🛠 Deploy on GitHub Pages
+1. Ensure `index.html` is in the repository root.  
+2. Go to **Settings → Pages**.  
+3. Under **Source**, select **Deploy from a branch**.  
+4. Choose **main / (root)** and save.  
+5. Your tool will be live at:  
