@@ -1,4 +1,4 @@
-# Custom Curtain Measurement Tool — by LuxDrape
+[# Custom Curtain Measurement Tool — by LuxDrape
 
 **Live Demo:** https://evan5208.github.io/curtain-measure-tool/  
 **Order Custom Curtains:** [LuxDrape](https://luxdrape.com/)
@@ -31,3 +31,4 @@ Plan your drapery project accurately before placing an order at LuxDrape.
 2. Go to **Settings → Pages**  
 3. Set Source to **Deploy from a branch** → `main / (root)`  
 4. Your tool will be live at:  
+](https://evan5208.github.io/curtain-measure-tool/)
